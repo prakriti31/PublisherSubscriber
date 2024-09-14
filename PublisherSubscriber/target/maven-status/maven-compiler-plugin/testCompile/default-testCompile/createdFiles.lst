@@ -1,1 +1,4 @@
+com\example\publishersubscriber\TestMultipleConnection.class
+com\example\publishersubscriber\TestSingleConnection.class
+com\example\publishersubscriber\benchmarkstesting\Benchmark.class
 com\example\publishersubscriber\PublisherSubscriberApplicationTests.class

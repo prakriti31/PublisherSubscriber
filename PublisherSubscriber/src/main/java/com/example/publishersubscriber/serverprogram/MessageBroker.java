@@ -15,12 +15,12 @@ public class MessageBroker {
     private int subscriberIdCounter = 1;
 
     // Register Publisher
-    public String registerPublisher() {
+    public String registerNewPublisher() {
         return "PUB-" + publisherIdCounter++;
     }
 
     // Create Topic
-    public void createTopic(String publisherId, String topic) {
+    public void createNewTopicToPublisher(String publisherId, String topic) {
         if (!topicMessages.containsKey(topic)) {
             topicMessages.put(topic, new ArrayList<>());
             topicSubscribers.put(topic, new HashSet<>());
@@ -28,13 +28,13 @@ public class MessageBroker {
     }
 
     // Delete Topic
-    public void deleteTopic(String publisherId, String topic) {
+    public void deleteTopicFromPublisher(String publisherId, String topic) {
         topicMessages.remove(topic);
         topicSubscribers.remove(topic);
     }
 
     // Send Message to Topic
-    public void sendMessage(String publisherId, String topic, String message) {
+    public void sendMessageToTopic(String publisherId, String topic, String message) {
         List<String> messages = topicMessages.getOrDefault(topic, new ArrayList<>());
         messages.add(message);
         topicMessages.put(topic, messages);
@@ -48,14 +48,14 @@ public class MessageBroker {
     }
 
     // Subscribe to a Topic
-    public void subscribe(String subscriberId, String topic) {
+    public void subscribeToTopic(String subscriberId, String topic) {
         Set<String> subscribers = topicSubscribers.getOrDefault(topic, new HashSet<>());
         subscribers.add(subscriberId);
         topicSubscribers.put(topic, subscribers);
     }
 
     // Pull Messages from Topic
-    public List<String> pullMessages(String subscriberId, String topic) {
+    public List<String> pullMessagesFromPool(String subscriberId, String topic) {
         List<String> messages = new ArrayList<>(topicMessages.getOrDefault(topic, new ArrayList<>()));
         Set<String> messagesRead = subscriberMessagesRead.getOrDefault(subscriberId, new HashSet<>());
 

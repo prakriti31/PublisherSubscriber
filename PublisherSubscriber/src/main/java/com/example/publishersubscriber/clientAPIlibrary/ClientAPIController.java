@@ -4,6 +4,7 @@ import com.example.publishersubscriber.serverprogram.MessageBroker;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -11,51 +12,53 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ClientAPIController {
 
+    // Interface interacting with messageBroker
     private final ClientAPI clientAPI;
 
+    // Constructor of Controller instantiating messageBroker to instantiate ClientAPIImplementation
     public ClientAPIController(MessageBroker messageBroker) {
         this.clientAPI = new ClientAPIImpl(messageBroker);
     }
 
     @PostMapping("/publisher/register")
     public ResponseEntity<String> registerPublisher() {
-        String publisherId = clientAPI.registerPublisher();
+        String publisherId = clientAPI.registerNewPublisher();
         return ResponseEntity.ok(publisherId);
     }
 
-    @PostMapping("/publisher/createTopic")
+    @PostMapping("/publisher/createNewTopicToPublisher")
     public ResponseEntity<Void> createTopic(@RequestBody Map<String, String> request) {
-        clientAPI.createTopic(request.get("publisherId"), request.get("topic"));
+        clientAPI.createNewTopicToPublisher(request.get("publisherId"), request.get("topic"));
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/publisher/deleteTopic")
+    @DeleteMapping("/publisher/deleteTopicFromPublisher")
     public ResponseEntity<Void> deleteTopic(@RequestBody Map<String, String> request) {
-        clientAPI.deleteTopic(request.get("publisherId"), request.get("topic"));
+        clientAPI.deleteTopicFromPublisher(request.get("publisherId"), request.get("topic"));
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/publisher/sendMessage")
+    @PostMapping("/publisher/sendMessageToTopic")
     public ResponseEntity<Void> sendMessage(@RequestBody Map<String, String> request) {
-        clientAPI.sendMessage(request.get("publisherId"), request.get("topic"), request.get("message"));
+        clientAPI.sendMessageToTopic(request.get("publisherId"), request.get("topic"), request.get("message"));
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/subscriber/register")
     public ResponseEntity<String> registerSubscriber() {
-        String subscriberId = clientAPI.registerSubscriber();
+        String subscriberId = clientAPI.registerNewSubscriber();
         return ResponseEntity.ok(subscriberId);
     }
 
-    @PostMapping("/subscriber/subscribe")
+    @PostMapping("/subscriber/subscribeToTopic")
     public ResponseEntity<Void> subscribe(@RequestBody Map<String, String> request) {
-        clientAPI.subscribe(request.get("subscriberId"), request.get("topic"));
+        clientAPI.subscribeToTopic(request.get("subscriberId"), request.get("topic"));
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/subscriber/pullMessages")
+    @GetMapping("/subscriber/pullMessagesFromPool")
     public ResponseEntity<List<String>> pullMessages(@RequestParam String subscriberId, @RequestParam String topic) {
-        List<String> messages = clientAPI.pullMessages(subscriberId, topic);
+        List<String> messages = clientAPI.pullMessagesFromPool(subscriberId, topic);
         return ResponseEntity.ok(messages);
     }
 }

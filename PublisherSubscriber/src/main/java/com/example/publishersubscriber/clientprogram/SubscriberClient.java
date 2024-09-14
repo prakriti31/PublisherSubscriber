@@ -7,18 +7,22 @@ import com.example.publishersubscriber.serverprogram.MessageBroker;
 import java.util.List;
 
 public class SubscriberClient {
-    public static void main(String[] args) {
-        MessageBroker messageBroker = new MessageBroker();
-        ClientAPI clientAPI = new ClientAPIImpl(messageBroker);
+    private final ClientAPI clientAPI;
 
+    // Constructor that accepts an external MessageBroker
+    public SubscriberClient(MessageBroker messageBroker) {
+        this.clientAPI = new ClientAPIImpl(messageBroker);
+    }
+
+    public void runSubscriber(String topic) {
         // Register subscriber and subscribe to a topic
-        String subscriberId = clientAPI.registerSubscriber();
-        clientAPI.subscribe(subscriberId, "news");
+        String subscriberId = clientAPI.registerNewSubscriber();
+        clientAPI.subscribeToTopic(subscriberId, topic);
 
         // Pull messages from the topic
-        List<String> messages = clientAPI.pullMessages(subscriberId, "news");
+        List<String> messages = clientAPI.pullMessagesFromPool(subscriberId, topic);
         for (String message : messages) {
-            System.out.println("Received: " + message);
+            System.out.println("Subscriber " + subscriberId + " received: " + message);
         }
     }
 }
