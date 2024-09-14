@@ -4,16 +4,15 @@ import com.example.publishersubscriber.clientprogram.PublisherClient;
 import com.example.publishersubscriber.clientprogram.SubscriberClient;
 import com.example.publishersubscriber.serverprogram.MessageBroker;
 
-public class TestSingleConnection {
+public class MultipleConnectionTests {
 
     public static void main(String[] args) {
-
         // Create a shared MessageBroker instance
         MessageBroker sharedMessageBroker = new MessageBroker();
 
         // Define the number of publishers and subscribers
-        int numPublishers = 1;
-        int numSubscribers = 1;
+        int numPublishers = 3;
+        int numSubscribers = 5;
 
         // Array to hold publisher and subscriber threads
         Thread[] publishers = new Thread[numPublishers];
@@ -53,6 +52,6 @@ public class TestSingleConnection {
             }
         }
 
-        System.out.println("The single connection functionality has been verified.");
+        System.out.println("All clients have completed.");
     }
 }

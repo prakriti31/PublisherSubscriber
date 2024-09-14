@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Benchmark {
+public class BenchmarkTests {
 
     private final RestTemplate restTemplate;
     private final String baseUrl;
@@ -29,7 +29,7 @@ public class Benchmark {
     private static final String PULL_MESSAGES_ENDPOINT = "/api/subscriber/pullMessagesFromPool";
     private static final String TEST_MESSAGE = "TestMessage";
 
-    public Benchmark(String baseUrl) {
+    public BenchmarkTests(String baseUrl) {
         this.restTemplate = new RestTemplate();
         this.baseUrl = baseUrl;
     }
@@ -249,7 +249,7 @@ public class Benchmark {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        Benchmark benchmarkClient = new Benchmark("http://localhost:8080");
+        BenchmarkTests benchmarkTestsClient = new BenchmarkTests("http://localhost:8080");
 
         final int initialClients = 10;
         final int maxClients = 100;
@@ -267,13 +267,13 @@ public class Benchmark {
         for (int numClients = initialClients; numClients <= maxClients; numClients += increment) {
             System.out.println("\nRunning benchmark with " + numClients + " clients:");
 
-            benchmarkClient.benchmarkRegisterPublisher(numClients);
-            benchmarkClient.benchmarkCreateTopic(numClients);
-            benchmarkClient.benchmarkDeleteTopic(numClients);
-            benchmarkClient.benchmarkSendMessage(numClients);
-            benchmarkClient.benchmarkRegisterSubscriber(numClients);
-            benchmarkClient.benchmarkSubscribeTopic(numClients);
-            benchmarkClient.benchmarkPullMessages(numClients);
+            benchmarkTestsClient.benchmarkRegisterPublisher(numClients);
+            benchmarkTestsClient.benchmarkCreateTopic(numClients);
+            benchmarkTestsClient.benchmarkDeleteTopic(numClients);
+            benchmarkTestsClient.benchmarkSendMessage(numClients);
+            benchmarkTestsClient.benchmarkRegisterSubscriber(numClients);
+            benchmarkTestsClient.benchmarkSubscribeTopic(numClients);
+            benchmarkTestsClient.benchmarkPullMessages(numClients);
         }
     }
 
