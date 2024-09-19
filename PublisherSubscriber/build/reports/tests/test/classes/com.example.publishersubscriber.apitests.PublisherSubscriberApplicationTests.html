@@ -29,7 +29,7 @@
 </td>
 <td>
 <div class="infoBox" id="failures">
-<div class="counter">0</div>
+<div class="counter">3</div>
 <p>failures</p>
 </div>
 </td>
@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.543s</div>
+<div class="counter">0.685s</div>
 <p>duration</p>
 </div>
 </td>
@@ -50,8 +50,8 @@
 </div>
 </td>
 <td>
-<div class="infoBox success" id="successRate">
-<div class="percent">100%</div>
+<div class="infoBox failures" id="successRate">
+<div class="percent">57%</div>
 <p>successful</p>
 </div>
 </td>
@@ -61,13 +61,69 @@
 <div id="tabs">
 <ul class="tabLinks">
 <li>
-<a href="#tab0">Tests</a>
+<a href="#tab0">Failed tests</a>
 </li>
 <li>
-<a href="#tab1">Standard output</a>
+<a href="#tab1">Tests</a>
+</li>
+<li>
+<a href="#tab2">Standard output</a>
 </li>
 </ul>
 <div id="tab0" class="tab">
+<h2>Failed tests</h2>
+<div class="test">
+<a name="testPullMessagesFromPool()"></a>
+<h3 class="failures">testPullMessagesFromPool()</h3>
+<span class="code">
+<pre>java.lang.AssertionError: []: Expected 1 values but got 0
+	at org.skyscreamer.jsonassert.JSONAssert.assertEquals(JSONAssert.java:417)
+	at org.skyscreamer.jsonassert.JSONAssert.assertEquals(JSONAssert.java:394)
+	at org.skyscreamer.jsonassert.JSONAssert.assertEquals(JSONAssert.java:336)
+	at org.springframework.test.util.JsonExpectationsHelper.assertJsonEqual(JsonExpectationsHelper.java:61)
+	at org.springframework.test.web.servlet.result.ContentResultMatchers.lambda$json$9(ContentResultMatchers.java:227)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.publishersubscriber.apitests.PublisherSubscriberApplicationTests.testPullMessagesFromPool(PublisherSubscriberApplicationTests.java:112)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="testRegisterPublisher()"></a>
+<h3 class="failures">testRegisterPublisher()</h3>
+<span class="code">
+<pre>java.lang.AssertionError: Response content expected:&lt;PUB-1&gt; but was:&lt;&gt;
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
+	at org.springframework.test.web.servlet.result.ContentResultMatchers.lambda$string$4(ContentResultMatchers.java:148)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.publishersubscriber.apitests.PublisherSubscriberApplicationTests.testRegisterPublisher(PublisherSubscriberApplicationTests.java:54)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+<div class="test">
+<a name="testRegisterSubscriber()"></a>
+<h3 class="failures">testRegisterSubscriber()</h3>
+<span class="code">
+<pre>java.lang.AssertionError: Response content expected:&lt;SUB-1&gt; but was:&lt;&gt;
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
+	at org.springframework.test.web.servlet.result.ContentResultMatchers.lambda$string$4(ContentResultMatchers.java:148)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.example.publishersubscriber.apitests.PublisherSubscriberApplicationTests.testRegisterSubscriber(PublisherSubscriberApplicationTests.java:87)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+</pre>
+</span>
+</div>
+</div>
+<div id="tab1" class="tab">
 <h2>Tests</h2>
 <table>
 <thead>
@@ -79,46 +135,46 @@
 </thead>
 <tr>
 <td class="success">testCreateTopic()</td>
-<td class="success">0.018s</td>
+<td class="success">0.036s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testDeleteTopic()</td>
-<td class="success">0.367s</td>
+<td class="success">0.400s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
-<td class="success">testPullMessagesFromPool()</td>
-<td class="success">0.064s</td>
-<td class="success">passed</td>
+<td class="failures">testPullMessagesFromPool()</td>
+<td class="failures">0.080s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
-<td class="success">testRegisterPublisher()</td>
-<td class="success">0.017s</td>
-<td class="success">passed</td>
+<td class="failures">testRegisterPublisher()</td>
+<td class="failures">0.033s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
-<td class="success">testRegisterSubscriber()</td>
-<td class="success">0.040s</td>
-<td class="success">passed</td>
+<td class="failures">testRegisterSubscriber()</td>
+<td class="failures">0.044s</td>
+<td class="failures">failed</td>
 </tr>
 <tr>
 <td class="success">testSendMessage()</td>
-<td class="success">0.015s</td>
+<td class="success">0.051s</td>
 <td class="success">passed</td>
 </tr>
 <tr>
 <td class="success">testSubscribeToTopic()</td>
-<td class="success">0.022s</td>
+<td class="success">0.041s</td>
 <td class="success">passed</td>
 </tr>
 </table>
 </div>
-<div id="tab1" class="tab">
+<div id="tab2" class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>01:11:15.150 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.publishersubscriber.apitests.PublisherSubscriberApplicationTests]: PublisherSubscriberApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-01:11:15.490 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.publishersubscriber.PublisherSubscriberApplication for test class com.example.publishersubscriber.apitests.PublisherSubscriberApplicationTests
+<pre>01:56:27.096 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.publishersubscriber.apitests.PublisherSubscriberApplicationTests]: PublisherSubscriberApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+01:56:27.416 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.publishersubscriber.PublisherSubscriberApplication for test class com.example.publishersubscriber.apitests.PublisherSubscriberApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -129,33 +185,33 @@
 
  :: Spring Boot ::                (v3.3.3)
 
-2024-09-19T01:11:19.471-05:00  INFO 15204 --- [    Test worker] .p.a.PublisherSubscriberApplicationTests : Starting PublisherSubscriberApplicationTests using Java 17.0.12 with PID 15204 (started by prakr in C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber)
-2024-09-19T01:11:19.475-05:00  INFO 15204 --- [    Test worker] .p.a.PublisherSubscriberApplicationTests : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2024-09-19T01:11:21.829-05:00  INFO 15204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-19T01:11:21.829-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-19T01:11:21.833-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
-2024-09-19T01:11:21.921-05:00  INFO 15204 --- [    Test worker] .p.a.PublisherSubscriberApplicationTests : Started PublisherSubscriberApplicationTests in 3.511 seconds (process running for 9.255)
-2024-09-19T01:11:21.990-05:00  INFO 15204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-19T01:11:21.990-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-19T01:11:21.990-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
-2024-09-19T01:11:22.322-05:00  INFO 15204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-19T01:11:22.322-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-19T01:11:22.330-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
-2024-09-19T01:11:22.375-05:00  INFO 15204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-19T01:11:22.375-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-19T01:11:22.375-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
-2024-09-19T01:11:22.399-05:00  INFO 15204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-19T01:11:22.399-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-19T01:11:22.399-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
-2024-09-19T01:11:22.416-05:00  INFO 15204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-19T01:11:22.416-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-19T01:11:22.430-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 14 ms
-2024-09-19T01:11:22.451-05:00  INFO 15204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-19T01:11:22.451-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-19T01:11:22.452-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
-2024-09-19T01:11:22.468-05:00  INFO 15204 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
-2024-09-19T01:11:22.474-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
-2024-09-19T01:11:22.474-05:00  INFO 15204 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T01:56:30.716-05:00  INFO 21028 --- [    Test worker] .p.a.PublisherSubscriberApplicationTests : Starting PublisherSubscriberApplicationTests using Java 17.0.12 with PID 21028 (started by prakr in C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber)
+2024-09-19T01:56:30.721-05:00  INFO 21028 --- [    Test worker] .p.a.PublisherSubscriberApplicationTests : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2024-09-19T01:56:32.776-05:00  INFO 21028 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2024-09-19T01:56:32.777-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T01:56:32.786-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2024-09-19T01:56:32.855-05:00  INFO 21028 --- [    Test worker] .p.a.PublisherSubscriberApplicationTests : Started PublisherSubscriberApplicationTests in 3.362 seconds (process running for 8.303)
+2024-09-19T01:56:32.961-05:00  INFO 21028 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2024-09-19T01:56:32.965-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T01:56:32.966-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2024-09-19T01:56:33.322-05:00  INFO 21028 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2024-09-19T01:56:33.322-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T01:56:33.322-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T01:56:33.374-05:00  INFO 21028 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2024-09-19T01:56:33.374-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T01:56:33.374-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T01:56:33.426-05:00  INFO 21028 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2024-09-19T01:56:33.426-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T01:56:33.426-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T01:56:33.474-05:00  INFO 21028 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2024-09-19T01:56:33.474-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T01:56:33.474-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T01:56:33.532-05:00  INFO 21028 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2024-09-19T01:56:33.532-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T01:56:33.532-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2024-09-19T01:56:33.565-05:00  INFO 21028 --- [    Test worker] o.s.mock.web.MockServletContext          : Initializing Spring TestDispatcherServlet ''
+2024-09-19T01:56:33.565-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2024-09-19T01:56:33.567-05:00  INFO 21028 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
 </pre>
 </span>
 </div>
@@ -167,7 +223,7 @@
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 8.10.1</a> at Sep 19, 2024, 1:11:22 AM</p>
+<a href="http://www.gradle.org">Gradle 8.10.1</a> at Sep 19, 2024, 1:56:33 AM</p>
 </div>
 </div>
 </body>

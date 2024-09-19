@@ -1,4 +1,3 @@
-com\example\publishersubscriber\apitests\PublisherSubscriberApplicationTests.class
 com\example\publishersubscriber\benchmarktesting\BenchmarkTests.class
 com\example\publishersubscriber\connectionestablishmenttests\MultipleConnectionTests.class
 com\example\publishersubscriber\benchmarktesting\Plot.class

@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class BenchmarkTests {
+//./gradlew bootRun
 
     private final RestTemplate restTemplate;
     private final String baseUrl;
