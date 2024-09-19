@@ -1,5 +1,7 @@
-C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\apitests\PublisherSubscriberApplicationTests.java
-C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\benchmarktesting\Benchmark.java
+C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\pingpongtests\SimplePingPongTests.java
 C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\benchmarktesting\Plot.java
-C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\connectionestablishmenttests\TestMultipleConnection.java
-C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\connectionestablishmenttests\TestSingleConnection.java
+C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\pingpongtests\PingPongThroughputTests.java
+C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\benchmarktesting\BenchmarkTests.java
+C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\connectionestablishmenttests\SingleConnectionTests.java
+C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\apitests\PublisherSubscriberApplicationTests.java
+C:\Users\prakr\Desktop\Sem1\Operating Systems\PublisherSubscriber\PublisherSubscriber\src\test\java\com\example\publishersubscriber\connectionestablishmenttests\MultipleConnectionTests.java

@@ -11,8 +11,8 @@ public class MultipleConnectionTests {
         MessageBroker sharedMessageBroker = new MessageBroker();
 
         // Define the number of publishers and subscribers
-        int numPublishers = 3;
-        int numSubscribers = 5;
+        int numPublishers = 8;
+        int numSubscribers = 10;
 
         // Array to hold publisher and subscriber threads
         Thread[] publishers = new Thread[numPublishers];

@@ -1,5 +1,7 @@
 com\example\publishersubscriber\apitests\PublisherSubscriberApplicationTests.class
-com\example\publishersubscriber\benchmarktesting\Benchmark.class
+com\example\publishersubscriber\benchmarktesting\BenchmarkTests.class
+com\example\publishersubscriber\connectionestablishmenttests\MultipleConnectionTests.class
 com\example\publishersubscriber\benchmarktesting\Plot.class
-com\example\publishersubscriber\connectionestablishmenttests\TestMultipleConnection.class
-com\example\publishersubscriber\connectionestablishmenttests\TestSingleConnection.class
+com\example\publishersubscriber\connectionestablishmenttests\SingleConnectionTests.class
+com\example\publishersubscriber\pingpongtests\PingPongThroughputTests.class
+com\example\publishersubscriber\pingpongtests\SimplePingPongTests.class
