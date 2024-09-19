@@ -14,12 +14,15 @@ public class SubscriberClient {
         this.clientAPI = new ClientAPIImpl(messageBroker);
     }
 
+    // Function to run subscriber
     public void runSubscriber(String topic) {
-        // Register subscriber and subscribe to a topic
+        // Register subscriber and subscribeTopic to a topic
         String subscriberId = clientAPI.registerNewSubscriber();
+        // Calling subscribe to topic
         clientAPI.subscribeToTopic(subscriberId, topic);
-
+        System.out.println("Subscriber " + subscriberId + " subscribed to topic : " + topic);
         // Pull messages from the topic
+        // Storing the data in a List by calling pull messages from pool function
         List<String> messages = clientAPI.pullMessagesFromPool(subscriberId, topic);
         for (String message : messages) {
             System.out.println("Subscriber " + subscriberId + " received: " + message);

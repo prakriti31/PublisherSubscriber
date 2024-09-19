@@ -37,7 +37,7 @@ public class PingPongThroughputTests {
                 subscriberIds.add(subscriberId);
                 topics.add(topic);
 
-                // Create topic for each publisher and subscribe each subscriber to the respective topic
+                // Create topic for each publisher and subscribeTopic each subscriber to the respective topic
                 clientAPI.createNewTopicToPublisher(publisherId, topic);
                 clientAPI.subscribeToTopic(subscriberId, topic);
             }

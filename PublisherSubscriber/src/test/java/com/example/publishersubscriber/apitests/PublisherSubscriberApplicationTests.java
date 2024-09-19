@@ -10,40 +10,40 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.mockito.Mockito.*;
 
 @WebMvcTest(ClientAPIController.class)
 public class PublisherSubscriberApplicationTests {
 
+    // Declare a mocksvc
     private MockMvc mockMvc;
 
+    // Declare a message broker private to this class
     @Mock
     private MessageBroker messageBroker;
 
+    // Declare a client API controller private to this class
     @InjectMocks
     private ClientAPIController clientAPIController;
 
+    // Set Up
     @BeforeEach
     void setUp(WebApplicationContext wac) {
         MockitoAnnotations.openMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
+    // Test registerPublisher API
     @Test
     @Order(1)
     void testRegisterPublisher() throws Exception {
         String publisherId = "PUB-1";
-//        when(clientAPIController.registerPublisher()).thenReturn(ResponseEntity.ok(publisherId));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/publisher/register")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -51,6 +51,7 @@ public class PublisherSubscriberApplicationTests {
                 .andExpect(content().string(publisherId));
     }
 
+    // Test createTopic API
     @Test
     @Order(2)
     void testCreateTopic() throws Exception {
@@ -60,6 +61,7 @@ public class PublisherSubscriberApplicationTests {
                 .andExpect(status().isOk());
     }
 
+    // Test sendMessage API
     @Test
     @Order(3)
     void testSendMessage() throws Exception {
@@ -69,11 +71,11 @@ public class PublisherSubscriberApplicationTests {
                 .andExpect(status().isOk());
     }
 
+    // Test registerSubscriber API
     @Test
     @Order(4)
     void testRegisterSubscriber() throws Exception {
         String subscriberId = "SUB-1";
-//        when(clientAPIController.registerSubscriber()).thenReturn(ResponseEntity.ok(subscriberId));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/subscriber/register")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -81,6 +83,7 @@ public class PublisherSubscriberApplicationTests {
                 .andExpect(content().string(subscriberId));
     }
 
+    // Test subscribeToTopic API
     @Test
     @Order(5)
     void testSubscribeToTopic() throws Exception {
@@ -90,11 +93,11 @@ public class PublisherSubscriberApplicationTests {
                 .andExpect(status().isOk());
     }
 
+    // Test pullMessagesFromPool API
     @Test
     @Order(6)
     void testPullMessagesFromPool() throws Exception {
         String jsonResponse = "[\"Published Message 1\"]";
-//        when(clientAPIController.pullMessages("SUB-1", "PubTopic1")).thenReturn(ResponseEntity.ok(List.of("Message1", "Message2")));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/subscriber/pullMessagesFromPool")
                         .param("subscriberId", "SUB-1")

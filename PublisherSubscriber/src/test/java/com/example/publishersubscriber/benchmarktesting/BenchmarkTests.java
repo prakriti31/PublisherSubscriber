@@ -217,7 +217,7 @@ public class BenchmarkTests {
 
         long duration = endTime - startTime;
         double throughput = (numClients * 1000.0 / duration);
-        System.out.println("Clients: " + numClients + " | Time taken for pullMessages: " + duration + " ms");
+        System.out.println("Clients: " + numClients + " | Time taken for pullMessagesFromTopic: " + duration + " ms");
         System.out.println("Throughput (messages pulled/sec): " + throughput);
 
         writeToCSV("pull_messages.csv", numClients + "," + throughput);

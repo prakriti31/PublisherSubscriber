@@ -52,6 +52,6 @@ public class MultipleConnectionTests {
             }
         }
 
-        System.out.println("All clients have completed.");
+        System.out.println("The multiple connection functionality has been verified.");
     }
 }
