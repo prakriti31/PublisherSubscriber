@@ -137,22 +137,22 @@ Firstly, navigate to the directory where your files are located
 
 ### Benchmark testing of the APIs:
 
-![Register Publisher Graph](./Publishersubscriber/register_publisher.png)
+![Register Publisher Graph](./PublisherSubscriber/register_publisher.png)
 
-![Register Subscriber Graph](./Publishersubscriber/register_subscriber.png)
+![Register Subscriber Graph](./PublisherSubscriber/register_subscriber.png)
 
-![Create Topic Graph](./Publishersubscriber/create_topic.png)
+![Create Topic Graph](./PublisherSubscriber/create_topic.png)
 
-![Delete Topic Graph](./Publishersubscriber/delete_topic.png)
+![Delete Topic Graph](./PublisherSubscriber/delete_topic.png)
 
-![Pull Messages Graph](./Publishersubscriber/pull_messages.png)
+![Pull Messages Graph](./PublisherSubscriber/pull_messages.png)
 
-![Send Message Graph](./Publishersubscriber/send_message.png)
+![Send Message Graph](./PublisherSubscriber/send_message.png)
 
-![Subscribe Topic Graph](./Publishersubscriber/subscribe_topic.png)
+![Subscribe Topic Graph](./PublisherSubscriber/subscribe_topic.png)
 
 ### Ping Pong Testing Plot:
 
-![Ping Pong Graph](./Publishersubscriber/throughput_chart.png)
+![Ping Pong Graph](./PublisherSubscriber/throughput_chart.png)
 
 
