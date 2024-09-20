@@ -7,14 +7,13 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class BenchmarkTests {
-//./gradlew bootRun
+    //./gradlew bootRun
 
     private final RestTemplate restTemplate;
     private final String baseUrl;
@@ -29,6 +28,9 @@ public class BenchmarkTests {
     private static final String SUBSCRIBE_TOPIC_ENDPOINT = "/api/subscriber/subscribeToTopic";
     private static final String PULL_MESSAGES_ENDPOINT = "/api/subscriber/pullMessagesFromPool";
     private static final String TEST_MESSAGE = "TestMessage";
+
+    // Threshold for server refusal
+    private static final int CLIENT_TIMEOUT_THRESHOLD = 6000;
 
     public BenchmarkTests(String baseUrl) {
         this.restTemplate = new RestTemplate();
@@ -47,169 +49,45 @@ public class BenchmarkTests {
 
     // Methods to benchmark each API
     public double benchmarkRegisterPublisher(int numClients) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(numClients);
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < numClients; i++) {
-            executor.submit(() -> {
-                restTemplate.postForEntity(baseUrl + REGISTER_PUBLISHER_ENDPOINT, null, String.class);
-            });
-        }
-        executor.shutdown();
-        executor.awaitTermination(THREAD_TERMINATION_TIMEOUT, TimeUnit.MINUTES);
-        long endTime = System.currentTimeMillis();
-
-        long duration = endTime - startTime;
-        double throughput = (numClients * 1000.0 / duration);
-        System.out.println("Clients: " + numClients + " | Time taken for registerPublisher: " + duration + " ms");
-        System.out.println("Throughput (publishers/sec): " + throughput);
-
-        writeToCSV("register_publisher.csv", numClients + "," + throughput);
-        return throughput;
+        return benchmarkAPI(numClients, REGISTER_PUBLISHER_ENDPOINT, "register_publisher.csv");
     }
 
     public double benchmarkCreateTopic(int numClients) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(numClients);
-        String publisherId = registerPublisher();
-
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < numClients; i++) {
-            final int clientIndex = i + 1;
-            executor.submit(() -> {
-                Map<String, String> request = new HashMap<>();
-                request.put("publisherId", publisherId);
-                request.put("topic", "TestTopic" + clientIndex);
-                restTemplate.postForEntity(baseUrl + CREATE_TOPIC_ENDPOINT, request, Void.class);
-            });
-        }
-        executor.shutdown();
-        executor.awaitTermination(THREAD_TERMINATION_TIMEOUT, TimeUnit.MINUTES);
-        long endTime = System.currentTimeMillis();
-
-        long duration = endTime - startTime;
-        double throughput = (numClients * 1000.0 / duration);
-        System.out.println("Clients: " + numClients + " | Time taken for createTopic: " + duration + " ms");
-        System.out.println("Throughput (topics/sec): " + throughput);
-
-        writeToCSV("create_topic.csv", numClients + "," + throughput);
-        return throughput;
+        return benchmarkAPI(numClients, CREATE_TOPIC_ENDPOINT, "create_topic.csv");
     }
 
     public double benchmarkDeleteTopic(int numClients) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(numClients);
-        String publisherId = registerPublisher();
-        createTopic(publisherId);
-
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < numClients; i++) {
-            final int clientIndex = i + 1;
-            executor.submit(() -> {
-                Map<String, String> request = new HashMap<>();
-                request.put("publisherId", publisherId);
-                request.put("topic", "TestTopic" + clientIndex);
-                restTemplate.delete(baseUrl + DELETE_TOPIC_ENDPOINT, request);
-            });
-        }
-        executor.shutdown();
-        executor.awaitTermination(THREAD_TERMINATION_TIMEOUT, TimeUnit.MINUTES);
-        long endTime = System.currentTimeMillis();
-
-        long duration = endTime - startTime;
-        double throughput = (numClients * 1000.0 / duration);
-        System.out.println("Clients: " + numClients + " | Time taken for deleteTopic: " + duration + " ms");
-        System.out.println("Throughput (topics deleted/sec): " + throughput);
-
-        writeToCSV("delete_topic.csv", numClients + "," + throughput);
-        return throughput;
+        return benchmarkAPI(numClients, DELETE_TOPIC_ENDPOINT, "delete_topic.csv");
     }
 
     public double benchmarkSendMessage(int numClients) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(numClients);
-        String publisherId = registerPublisher();
-        createTopic(publisherId);
-
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < numClients; i++) {
-            final int clientIndex = i + 1;
-            executor.submit(() -> {
-                Map<String, String> request = new HashMap<>();
-                request.put("publisherId", publisherId);
-                request.put("topic", "TestTopic" + clientIndex);
-                request.put("message", TEST_MESSAGE);
-                restTemplate.postForEntity(baseUrl + SEND_MESSAGE_ENDPOINT, request, Void.class);
-            });
-        }
-        executor.shutdown();
-        executor.awaitTermination(THREAD_TERMINATION_TIMEOUT, TimeUnit.MINUTES);
-        long endTime = System.currentTimeMillis();
-
-        long duration = endTime - startTime;
-        double throughput = (numClients * 1000.0 / duration);
-        System.out.println("Clients: " + numClients + " | Time taken for sendMessage: " + duration + " ms");
-        System.out.println("Throughput (messages/sec): " + throughput);
-
-        writeToCSV("send_message.csv", numClients + "," + throughput);
-        return throughput;
+        return benchmarkAPI(numClients, SEND_MESSAGE_ENDPOINT, "send_message.csv");
     }
 
     public double benchmarkRegisterSubscriber(int numClients) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(numClients);
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < numClients; i++) {
-            executor.submit(() -> {
-                restTemplate.postForEntity(baseUrl + REGISTER_SUBSCRIBER_ENDPOINT, null, String.class);
-            });
-        }
-        executor.shutdown();
-        executor.awaitTermination(THREAD_TERMINATION_TIMEOUT, TimeUnit.MINUTES);
-        long endTime = System.currentTimeMillis();
-
-        long duration = endTime - startTime;
-        double throughput = (numClients * 1000.0 / duration);
-        System.out.println("Clients: " + numClients + " | Time taken for registerSubscriber: " + duration + " ms");
-        System.out.println("Throughput (subscribers/sec): " + throughput);
-
-        writeToCSV("register_subscriber.csv", numClients + "," + throughput);
-        return throughput;
+        return benchmarkAPI(numClients, REGISTER_SUBSCRIBER_ENDPOINT, "register_subscriber.csv");
     }
 
     public double benchmarkSubscribeTopic(int numClients) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(numClients);
-        String subscriberId = registerSubscriber();
-        createTopic(registerPublisher());
-
-        long startTime = System.currentTimeMillis();
-        for (int i = 0; i < numClients; i++) {
-            final int clientIndex = i + 1;
-            executor.submit(() -> {
-                Map<String, String> request = new HashMap<>();
-                request.put("subscriberId", subscriberId);
-                request.put("topic", "TestTopic" + clientIndex);
-                restTemplate.postForEntity(baseUrl + SUBSCRIBE_TOPIC_ENDPOINT, request, Void.class);
-            });
-        }
-        executor.shutdown();
-        executor.awaitTermination(THREAD_TERMINATION_TIMEOUT, TimeUnit.MINUTES);
-        long endTime = System.currentTimeMillis();
-
-        long duration = endTime - startTime;
-        double throughput = (numClients * 1000.0 / duration);
-        System.out.println("Clients: " + numClients + " | Time taken for subscribeTopic: " + duration + " ms");
-        System.out.println("Throughput (subscriptions/sec): " + throughput);
-
-        writeToCSV("subscribe_topic.csv", numClients + "," + throughput);
-        return throughput;
+        return benchmarkAPI(numClients, SUBSCRIBE_TOPIC_ENDPOINT, "subscribe_topic.csv");
     }
 
     public double benchmarkPullMessages(int numClients) throws InterruptedException {
-        ExecutorService executor = Executors.newFixedThreadPool(numClients);
-        String subscriberId = registerSubscriber();
-        createTopic(registerPublisher());
-        subscribeTopic(subscriberId, "TestTopic");
+        return benchmarkAPI(numClients, PULL_MESSAGES_ENDPOINT, "pull_messages.csv");
+    }
 
+    private double benchmarkAPI(int numClients, String endpoint, String csvFileName) throws InterruptedException {
+        // Check for timeout condition after 6000 clients
+        if (numClients > CLIENT_TIMEOUT_THRESHOLD) {
+            System.out.println("Server refused to connect after " + CLIENT_TIMEOUT_THRESHOLD + " clients.");
+            return -1; // Return an error code or custom value indicating timeout.
+        }
+
+        ExecutorService executor = Executors.newFixedThreadPool(numClients);
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < numClients; i++) {
             executor.submit(() -> {
-                restTemplate.getForEntity(baseUrl + PULL_MESSAGES_ENDPOINT + "?subscriberId=" + subscriberId + "&topic=TestTopic", List.class);
+                restTemplate.postForEntity(baseUrl + endpoint, null, String.class);
             });
         }
         executor.shutdown();
@@ -217,12 +95,11 @@ public class BenchmarkTests {
         long endTime = System.currentTimeMillis();
 
         long duration = endTime - startTime;
-        double throughput = (numClients * 1000.0 / duration);
-        System.out.println("Clients: " + numClients + " | Time taken for pullMessagesFromTopic: " + duration + " ms");
-        System.out.println("Throughput (messages pulled/sec): " + throughput);
+        double timeTakenInSeconds = duration / 1000.0;
+        System.out.println("Clients: " + numClients + " | Time taken for " + endpoint + ": " + timeTakenInSeconds + " seconds");
 
-        writeToCSV("pull_messages.csv", numClients + "," + throughput);
-        return throughput;
+        writeToCSV(csvFileName, numClients + "," + timeTakenInSeconds);
+        return timeTakenInSeconds;
     }
 
     private String registerPublisher() {
@@ -252,9 +129,9 @@ public class BenchmarkTests {
     public static void main(String[] args) throws InterruptedException {
         BenchmarkTests benchmarkTestsClient = new BenchmarkTests("http://localhost:8080");
 
-        final int initialClients = 10;
-        final int maxClients = 100;
-        final int increment = 10;
+        final int initialClients = 100;
+        final int maxClients = 10000;
+        final int increment = 500;
 
         // Create CSV files with headers
         createCSVFile("register_publisher.csv");
@@ -280,7 +157,7 @@ public class BenchmarkTests {
 
     private static void createCSVFile(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            writer.write("Number of Clients,Throughput");
+            writer.write("Number of Clients,Time Taken (seconds)");
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();

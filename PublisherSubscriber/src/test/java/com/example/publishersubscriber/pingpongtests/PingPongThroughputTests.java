@@ -16,7 +16,7 @@ public class PingPongThroughputTests {
         MessageBroker messageBroker = new MessageBroker();
         ClientAPI clientAPI = new ClientAPIImpl(messageBroker);
 
-        int[] pairCounts = {1, 2, 3, 4, 5}; // Test for 1 to 5 pairs
+        int[] pairCounts = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}; // Test for 1 to 5 pairs
         int messageCount = 100; // Number of messages per test
 
         List<Integer> pairList = new ArrayList<>();  // To store the number of pairs
@@ -83,13 +83,25 @@ public class PingPongThroughputTests {
     // Function to plot the throughput graph using XChart
     private static void plotThroughputGraph(List<Integer> pairList, List<Double> throughputList) {
         // Create Chart
-        XYChart chart = new XYChartBuilder().width(800).height(600).title("Server Throughput with Multiple Pairs")
-                .xAxisTitle("Number of Publisher-Subscriber Pairs").yAxisTitle("Throughput (Messages/Second)").build();
+        XYChart chart = new XYChartBuilder().width(800).height(600)
+                .title("Server Throughput with Multiple Pairs")
+                .xAxisTitle("Number of Publisher-Subscriber Pairs")
+                .yAxisTitle("Throughput (Messages/Second)")
+                .build();
 
         // Add the data series to the chart
         chart.addSeries("Throughput", pairList, throughputList);
 
+        // Save the chart as a PNG file
+        try {
+            org.knowm.xchart.BitmapEncoder.saveBitmap(chart, "./throughput_chart", org.knowm.xchart.BitmapEncoder.BitmapFormat.PNG);
+            System.out.println("Chart saved as throughput_chart.png");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Display the chart
         new SwingWrapper<>(chart).displayChart();
     }
+
 }

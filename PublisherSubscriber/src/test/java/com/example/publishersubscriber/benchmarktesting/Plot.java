@@ -1,10 +1,10 @@
 package com.example.publishersubscriber.benchmarktesting;
 
+import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
-import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.style.Styler;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -24,26 +24,16 @@ public class Plot {
     };
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Benchmark Results");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(800, 600);
-            frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-
-            for (String file : FILES) {
-                try {
-                    XYChart chart = createChart(file);
-                    JPanel chartPanel = new XChartPanel<>(chart);
-                    chartPanel.setPreferredSize(new java.awt.Dimension(800, 400));
-                    frame.add(chartPanel);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        for (String file : FILES) {
+            try {
+                XYChart chart = createChart(file);
+                String outputFileName = file.replace(".csv", ".png");
+                saveChartAsPNG(chart, outputFileName);
+                System.out.println("Saved chart for " + file + " as " + outputFileName);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            frame.pack();
-            frame.setVisible(true);
-        });
+        }
     }
 
     private static XYChart createChart(String fileName) throws IOException {
@@ -76,12 +66,26 @@ public class Plot {
             throw new IllegalArgumentException("Y-Axis data cannot be empty!!!");
         }
 
-        XYChart chart = new XYChartBuilder().width(800).height(400).title(getChartTitle(fileName))
-                .xAxisTitle("Number of Clients").yAxisTitle("Throughput (per second)").build();
+        XYChart chart = new XYChartBuilder()
+                .width(800)
+                .height(600)
+                .title(getChartTitle(fileName))
+                .xAxisTitle("Number of Clients")
+                .yAxisTitle("Time in seconds")
+                .theme(Styler.ChartTheme.Matlab)
+                .build();
 
         chart.addSeries("Throughput", numClientsList, throughputList);
 
         return chart;
+    }
+
+    private static void saveChartAsPNG(XYChart chart, String fileName) {
+        try {
+            BitmapEncoder.saveBitmap(chart, fileName, BitmapEncoder.BitmapFormat.PNG);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static String getChartTitle(String fileName) {

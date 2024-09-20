@@ -1,0 +1,74 @@
+<project name="PublisherSubscriber" default="compile" basedir=".">
+    <!-- Define properties -->
+    <property name="src.dir" value="src/main/java"/>
+    <property name="src.main" value="src/main/java"/>
+    <property name="build.dir" value="build"/>
+    <property name="build.classes" value="build/classes"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="test.classes.dir" value="${build.dir}/test-classes"/>
+
+    <!-- Create directories -->
+    <target name="init">
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
+    </target>
+
+    <!-- Compile main source -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+
+    <!-- Compile test source -->
+    <target name="compile-tests" depends="init">
+        <javac srcdir="src/test/java/*" destdir="${test.classes.dir}" classpathref="classpath" includeantruntime="false">
+            <include name="PublisherClient.java"/>
+            <include name="SubscriberClient.java"/>
+            <include name="MessageBroker.java"/>
+            <include name="ClientAPIImpl.java"/>
+            <include name="ClientAPI.java"/>
+            <include name="ClientAPIController.java"/>
+            <include name="SingleConnectionTests.java"/>
+            <include name="MultipleConnectionTests.java"/>
+            <include name="BenchmarkTests.java"/>
+            <include name="Plot.java"/>
+            <include name="SinglePingPongTests.java"/>
+            <include name="PingPongThroughputTests.java"/>
+        </javac>
+    </target>
+
+    <!-- Run tests -->
+    <target name="test" depends="compile-tests">
+        <junit printsummary="true" haltonfailure="true" fork="true">
+            <classpath>
+                <pathelement path="${classes.dir}"/>
+                <pathelement path="${test.classes.dir}"/>
+                <fileset dir="${lib.dir}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest fork="true" todir="${build.dir}/test-reports">
+                <fileset dir="src/test/java">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!-- Clean up build directories -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <!-- Classpath definition -->
+    <path id="classpath">
+        <fileset dir="${lib.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- Default target -->
+    <target name="default" depends="compile, test"/>
+</project>
